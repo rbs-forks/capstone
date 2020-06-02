@@ -77,6 +77,12 @@ static void printopaquemem(MCInst *MI, unsigned OpNo, SStream *O)
 		default:
 			SStream_concat0(O, "ptr ");
 			break;
+
+	    case X86_INS_XSAVE:
+	    case X86_INS_XSAVE64:
+            SStream_concat0(O, "opaque ptr ");
+            break;
+
 		case X86_INS_SGDT:
 		case X86_INS_SIDT:
 		case X86_INS_LGDT:
