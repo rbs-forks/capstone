@@ -109,6 +109,9 @@ typedef enum cs_mode {
 	CS_MODE_THUMB = 1 << 4,	///< ARM's Thumb mode, including Thumb-2
 	CS_MODE_MCLASS = 1 << 5,	///< ARM's Cortex-M series
 	CS_MODE_V8 = 1 << 6,	///< ARMv8 A32 encodings for ARM
+	CS_MODE_XSCALE = 1 << 8, // ARM XSCALE encodings
+	CS_MODE_V5 = 1 << 9,     // ARMv5 encodings
+	CS_MODE_V5E = 1 << 10,   // ARMv5E encodings (imples T, D, M, and I as well)
 	CS_MODE_MICRO = 1 << 4, ///< MicroMips mode (MIPS)
 	CS_MODE_MIPS3 = 1 << 5, ///< Mips III ISA
 	CS_MODE_MIPS32R6 = 1 << 6, ///< Mips32r6 ISA
@@ -505,7 +508,7 @@ const char * CAPSTONE_API cs_strerror(cs_err code);
  which complicates things. This is especially troublesome for the case @count=0,
  when cs_disasm() runs uncontrollably (until either end of input buffer, or
  when it encounters an invalid instruction).
- 
+
  @handle: handle returned by cs_open()
  @code: buffer containing raw binary code to be disassembled.
  @code_size: size of the above code buffer.
@@ -584,7 +587,7 @@ cs_insn * CAPSTONE_API cs_malloc(csh handle);
  which complicates things. This is especially troublesome for the case
  @count=0, when cs_disasm() runs uncontrollably (until either end of input
  buffer, or when it encounters an invalid instruction).
- 
+
  @handle: handle returned by cs_open()
  @code: buffer containing raw binary code to be disassembled
  @size: size of above code

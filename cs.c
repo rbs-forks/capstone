@@ -210,7 +210,7 @@ static cs_err (*cs_arch_option[MAX_ARCH]) (cs_struct *, cs_opt_type, size_t valu
 static cs_mode cs_arch_disallowed_mode_mask[MAX_ARCH] = {
 #ifdef CAPSTONE_HAS_ARM
 	~(CS_MODE_LITTLE_ENDIAN | CS_MODE_ARM | CS_MODE_V8 | CS_MODE_MCLASS
-	  | CS_MODE_THUMB | CS_MODE_BIG_ENDIAN),
+	  | CS_MODE_THUMB | CS_MODE_BIG_ENDIAN | CS_MODE_XSCALE | CS_MODE_V5 | CS_MODE_V5E),
 #else
 	0,
 #endif

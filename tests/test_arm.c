@@ -187,7 +187,7 @@ static void test()
 //#define ARM_CODE "\x04\xe0\x2d\xe5"	// str	lr, [sp, #-0x4]!
 //#define ARM_CODE "\xe0\x83\x22\xe5"	// str	r8, [r2, #-0x3e0]!
 //#define ARM_CODE "\xf1\x02\x03\x0e"	// mcreq	p0x2, #0x0, r0, c0x3, c0x1, #0x7
-//#define ARM_CODE "\x00\x00\xa0\xe3"	// mov	r0, #0x0 
+//#define ARM_CODE "\x00\x00\xa0\xe3"	// mov	r0, #0x0
 //#define ARM_CODE "\x02\x30\xc1\xe7"	// strb	r3, [r1, r2]
 //#define ARM_CODE "\x00\x00\x53\xe3"	// cmp	r3, #0x0
 //#define ARM_CODE "\x02\x00\xa1\xe2"	// adc r0, r1, r2
@@ -219,7 +219,7 @@ static void test()
 //#define ARM_CODE "\xd0\x00\xc2\xe1"	// ldrd	r0, r1, [r2]
 //#define ARM_CODE "\x08\xf0\xd0\xf5"	// pld	[r0, #0x8]
 //#define ARM_CODE "\x10\x8b\xbc\xec"	// ldc	p11, c8, [r12], #64
-//#define ARM_CODE "\xd4\x30\xd2\xe1"	// ldrsb	r3, [r2, #0x4] 
+//#define ARM_CODE "\xd4\x30\xd2\xe1"	// ldrsb    r3, [r2, #0x4]
 //#define ARM_CODE "\x11\x0f\xbe\xf2"	// vcvt.s32.f32	d0, d1, #2
 //#define ARM_CODE "\x01\x01\x70\xe1"	// cmn	r0, r1, lsl #2
 //#define ARM_CODE "\x06\x00\x91\xe2"	// adds	r0, r1, #6
@@ -251,6 +251,9 @@ static void test()
 #define THUMB_CODE2 "\x4f\xf0\x00\x01\xbd\xe8\x00\x88\xd1\xe8\x00\xf0\x18\xbf\xad\xbf\xf3\xff\x0b\x0c\x86\xf3\x00\x89\x80\xf3\x00\x8c\x4f\xfa\x99\xf6\xd0\xff\xa2\x01"
 #define THUMB_MCLASS "\xef\xf3\x02\x80"
 #define ARMV8 "\xe0\x3b\xb2\xee\x42\x00\x01\xe1\x51\xf0\x7f\xf5"
+#define NOP "\x00\x00\xa0\xe1"
+#define ARMV5E "\xd0\x20\xc7\xe1"
+
 
 	struct platform platforms[] = {
 		{
@@ -295,6 +298,28 @@ static void test()
 			(unsigned char*)ARMV8,
 			sizeof(ARMV8) - 1,
 			"Arm-V8"
+		},
+		// V5 and XSCALE in KSTOOL fork test against nop
+		{
+			CS_ARCH_ARM,
+			(cs_mode)(CS_MODE_ARM + CS_MODE_XSCALE),
+			(unsigned char*)NOP,
+			sizeof(NOP) - 1,
+			"Arm-XSCALE"
+		},
+		{
+			CS_ARCH_ARM,
+			(cs_mode)(CS_MODE_ARM + CS_MODE_V5),
+			(unsigned char*)NOP,
+			sizeof(NOP) - 1,
+			"Arm-V5"
+		},
+		{
+			CS_ARCH_ARM,
+			(cs_mode)(CS_MODE_ARM + CS_MODE_V5E),
+			(unsigned char*)ARMV5E,
+			sizeof(ARMV5E) - 1,
+			"Arm-V5E"
 		},
 	};
 

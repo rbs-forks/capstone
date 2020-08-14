@@ -51,6 +51,9 @@ __all__ = [
     'CS_MODE_MIPS32R6',
     'CS_MODE_MIPS2',
     'CS_MODE_V8',
+    'CS_MODE_XSCALE',
+    'CS_MODE_V5',
+    'CS_MODE_V5E',
     'CS_MODE_V9',
     'CS_MODE_QPX',
     'CS_MODE_M68K_000',
@@ -165,6 +168,9 @@ CS_MODE_64 = (1 << 3)          # 64-bit mode (for X86, PPC)
 CS_MODE_THUMB = (1 << 4)       # ARM's Thumb mode, including Thumb-2
 CS_MODE_MCLASS = (1 << 5)      # ARM's Cortex-M series
 CS_MODE_V8 = (1 << 6)          # ARMv8 A32 encodings for ARM
+CS_MODE_XSCALE = (1 << 8)      # XSCALE encodings for ARM
+CS_MODE_V5 = (1 << 9)          # ARMv5 encodings
+CS_MODE_V5E = (1 << 10)        # ARMv5e encodings (also implies T, D, M, and I)
 CS_MODE_MICRO = (1 << 4)       # MicroMips mode (MIPS architecture)
 CS_MODE_MIPS3 = (1 << 5)       # Mips III ISA
 CS_MODE_MIPS32R6 = (1 << 6)    # Mips32r6 ISA
@@ -630,7 +636,7 @@ class CsInsn(object):
         arch = self._cs.arch
         if arch == CS_ARCH_ARM:
             (self.usermode, self.vector_size, self.vector_data, self.cps_mode, self.cps_flag, self.cc, self.update_flags, \
-            self.writeback, self.mem_barrier, self.operands) = arm.get_arch_info(self._raw.detail.contents.arch.arm) 
+            self.writeback, self.mem_barrier, self.operands) = arm.get_arch_info(self._raw.detail.contents.arch.arm)
         elif arch == CS_ARCH_ARM64:
             (self.cc, self.update_flags, self.writeback, self.operands) = \
                 arm64.get_arch_info(self._raw.detail.contents.arch.arm64)

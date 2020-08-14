@@ -16,6 +16,12 @@ static struct {
 	{ "arm", CS_ARCH_ARM, CS_MODE_ARM },
 	{ "armb", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_BIG_ENDIAN },
 	{ "armbe", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_BIG_ENDIAN },
+	{ "armv5", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_V5 |CS_MODE_LITTLE_ENDIAN },
+	{ "armv5be", CS_ARCH_ARM, CS_MODE_ARM |CS_MODE_V5 | CS_MODE_BIG_ENDIAN },
+	{ "armv5e", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_V5E |CS_MODE_LITTLE_ENDIAN },
+	{ "armv5ebe", CS_ARCH_ARM, CS_MODE_ARM |CS_MODE_V5E | CS_MODE_BIG_ENDIAN },
+	{ "xscale", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_XSCALE |CS_MODE_LITTLE_ENDIAN },
+	{ "xscalebe", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_XSCALE | CS_MODE_BIG_ENDIAN },
 	{ "arml", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_LITTLE_ENDIAN },
 	{ "armle", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_LITTLE_ENDIAN },
 	{ "cortexm", CS_ARCH_ARM, CS_MODE_ARM | CS_MODE_THUMB | CS_MODE_MCLASS },
@@ -150,6 +156,12 @@ static void usage(char *prog)
 	if (cs_support(CS_ARCH_ARM)) {
 		printf("        arm         arm\n");
 		printf("        armbe       arm + big endian\n");
+		printf("        armv5       armv5 + little endian\n");
+		printf("        armv5be     armv5 + big endian\n");
+		printf("        armv5e      armv5e + little endian\n");
+		printf("        armv5ebe    armv5e + big endian\n");
+		printf("        xscale      arm-xscale + little endian\n");
+		printf("        xscalebe    arm-xscale + big endian\n");
 		printf("        thumb       thumb mode\n");
 		printf("        thumbbe     thumb + big endian\n");
 		printf("        cortexm     thumb + cortex-m extensions\n");
