@@ -1,5 +1,10 @@
+ifndef PYTHON2
 PYTHON2 = python
+endif
+
+ifndef PYTHON3
 PYTHON3 = python3
+endif
 
 .PHONY: gen_const install install3 install_cython sdist sdist3 bdist bdist3 clean check
 
