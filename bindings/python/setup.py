@@ -140,6 +140,13 @@ def build_libraries():
         # Do not build tests & static library
         os.system('cmake -DCMAKE_BUILD_TYPE=RELEASE -DCAPSTONE_BUILD_TESTS=0 -DCAPSTONE_BUILD_STATIC=0 -G "NMake Makefiles" ..')
         os.system("nmake")
+    elif "bsd" in SYSTEM:
+        # *BSD distinguishes make (BSD) vs gmake (GNU). Use cmake + bsd make :-)
+        if not os.path.exists("build"): os.mkdir("build")
+        os.chdir("build")
+        # Do not build tests & static library
+        os.system('cmake -DCMAKE_BUILD_TYPE=RELEASE -DCAPSTONE_BUILD_TESTS=0 -DCAPSTONE_BUILD_STATIC=0 ..')
+        os.system("make")
     else:   # Unix incl. cygwin
         os.system("CAPSTONE_BUILD_CORE_ONLY=yes bash ./make.sh")
 
@@ -199,13 +206,56 @@ if 'bdist_wheel' in sys.argv and '--plat-name' not in sys.argv:
     name = get_platform()
     if 'linux' in name:
         # linux_* platform tags are disallowed because the python ecosystem is fubar
-        # linux builds should be built in the centos 5 vm for maximum compatibility
+        # linux builds should be built in the centos 6 vm for maximum compatibility
         # see https://github.com/pypa/manylinux
-        # see also https://github.com/angr/angr-dev/blob/master/bdist.sh
-        sys.argv.insert(idx + 1, 'manylinux1_' + platform.machine())
+        # see also https://github.com/angr/angr-dev/blob/master/bdist.sh and
+        # https://www.python.org/dev/peps/pep-0599/
+        sys.argv.insert(idx + 1, 'manylinux2014_' + platform.machine())
     else:
         # https://www.python.org/dev/peps/pep-0425/
         sys.argv.insert(idx + 1, name.replace('.', '_').replace('-', '_'))
+
+long_desc = '''
+Capstone is a disassembly framework with the target of becoming the ultimate
+disasm engine for binary analysis and reversing in the security community.
+
+Created by Nguyen Anh Quynh, then developed and maintained by a small community,
+Capstone offers some unparalleled features:
+
+- Support multiple hardware architectures: ARM, ARM64 (ARMv8), Mips, PPC, Sparc,
+  SystemZ, XCore and X86 (including X86_64).
+
+- Having clean/simple/lightweight/intuitive architecture-neutral API.
+
+- Provide details on disassembled instruction (called "decomposer" by others).
+
+- Provide semantics of the disassembled instruction, such as list of implicit
+  registers read & written.
+
+- Implemented in pure C language, with lightweight wrappers for C++, C#, Go,
+  Java, NodeJS, Ocaml, Python, Ruby & Vala ready (available in main code,
+  or provided externally by the community).
+
+- Native support for all popular platforms: Windows, Mac OSX, iOS, Android,
+  Linux, *BSD, Solaris, etc.
+
+- Thread-safe by design.
+
+- Special support for embedding into firmware or OS kernel.
+
+- High performance & suitable for malware analysis (capable of handling various
+  X86 malware tricks).
+
+- Distributed under the open source BSD license.
+
+Further information is available at http://www.capstone-engine.org
+
+
+[License]
+
+This project is released under the BSD license. If you redistribute the binary
+or source code of Capstone, please attach file LICENSE.TXT with your products.
+'''
 
 setup(
     provides=['capstone'],
@@ -215,22 +265,24 @@ setup(
     author='Nguyen Anh Quynh',
     author_email='aquynh@gmail.com',
     description='Capstone disassembly engine',
-    url='http://www.capstone-engine.org',
+    long_description=long_desc,
+    long_description_content_type="text/markdown",
+    url='https://www.capstone-engine.org',
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
     ],
     requires=['ctypes'],
     cmdclass=cmdclass,
     zip_safe=True,
     include_package_data=True,
+    is_pure=False,
     package_data={
         "capstone": ["lib/*", "include/capstone/*"],
     }
